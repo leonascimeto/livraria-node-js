@@ -1,3 +1,4 @@
+const { Either, AppError } = require("../shared/errors");
 const emprestarLivroUsecase = require("./emprestar-livro.usecase");
 
 describe('Emprestar Livro UseCase', function() {
@@ -14,6 +15,10 @@ describe('Emprestar Livro UseCase', function() {
     data_retorno: new Date('2024-02-23'),
   };
 
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
   test('Deve emprestar um livro', async () => {
     const sut = emprestarLivroUsecase({ emprestimoRepository });
     const output = await sut(emprestarLivroPayload);
@@ -21,6 +26,37 @@ describe('Emprestar Livro UseCase', function() {
     expect(output.right).toBeNull();
     expect(emprestimoRepository.emprestarLivro).toHaveBeenCalledWith(emprestarLivroPayload);
     expect(emprestimoRepository.emprestarLivro).toHaveBeenCalledTimes(1);   
+  });
+
+  test('deve retornar error se a data de saída for maior que a data de retorno', async () => {
+    const sut = emprestarLivroUsecase({ emprestimoRepository });
+    
+    const output = await sut({
+      ...emprestarLivroPayload,
+      data_saida: new Date('2024-02-23'),
+      data_retorno: new Date('2024-02-16'),
+    });
+
+    expect(output).toEqual(Either.left(AppError.invalidDates));
+  })
+
+  test('não deve permitir que um livro seja emprestado para um usuário que já possui o livro', async () => {
+    const sut = emprestarLivroUsecase({ emprestimoRepository });
+    emprestimoRepository.existeLivroISBNPendenteUsuario.mockResolvedValue(true);
+
+    const output = await sut(emprestarLivroPayload);
+
+    expect(output).toEqual(Either.left(AppError.livroJaEmprestado));
+  });
+
+  test('não deve permitir que um usuário pegue emprestado mais de 3 livros', async () => {
+    const sut = emprestarLivroUsecase({ emprestimoRepository });
+    emprestimoRepository.existeLivroISBNPendenteUsuario.mockResolvedValue(false);
+    emprestimoRepository.quantidadeLivrosEmprestadoPorUsuario.mockResolvedValue(3);
+
+    const output = await sut(emprestarLivroPayload);
+
+    expect(output).toEqual(Either.left(AppError.usuarioComLimiteEmprestimos));
   });
 
 });
