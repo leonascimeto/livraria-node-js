@@ -27,4 +27,10 @@ describe('Cadastra livro UseCase', () => {
     expect(() => cadastrarLivroUsecase({})).toThrow(new AppError(AppError.dependencies));
   });
 
+  test('Deve retornar erro se os campos obrigatórios não forem informados', async () => {
+    const sut = cadastrarLivroUsecase({ livroRepository });
+    const output = await sut({});
+    expect(output.left).toEqual(AppError.fieldsObligatory);
+  });
+
 });
