@@ -26,4 +26,15 @@ describe('Busca usuário por cpf UseCase', () => {
     expect(usuarioRepository.buscaUsuarioPorCpf).toHaveBeenCalledTimes(1);
   });
 
+  test('Deve retornar null se o cpf não for informado', async () => {
+    const cpf = 'cpf_nao_cadastrado'
+
+    const sut = buscaUsuarioPorCpfUsecase({ usuarioRepository });
+    usuarioRepository.buscaUsuarioPorCpf.mockResolvedValue(null);
+    const output = await sut({ cpf });
+
+    expect(output.right).toBeNull();
+    expect(usuarioRepository.buscaUsuarioPorCpf).toHaveBeenCalledWith(cpf);
+  });
+
 });
