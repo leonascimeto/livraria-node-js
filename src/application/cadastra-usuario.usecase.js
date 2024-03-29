@@ -7,9 +7,12 @@ module.exports = function cadastrarUsuarioUseCase({usuarioRepository}) {
     if (!name || !cpf || !telefone || !email || !endereco) 
       throw new AppError(AppError.fieldsObligatory);
 
-    const usuarioJaCadastrado = await usuarioRepository.buscarPorCpf(cpf);
-    if (usuarioJaCadastrado) return Either.left(AppError.userAlreadyRegistered);
-     
+    const cpfJaCadastrado = await usuarioRepository.existePorCpf(cpf);
+    if (cpfJaCadastrado) return Either.left(AppError.userAlreadyRegistered);
+
+    const emailJaCadastrado = await usuarioRepository.existePorEmail(email);
+    if (emailJaCadastrado) return Either.left(AppError.userAlreadyRegistered);
+    
     await usuarioRepository.cadastrar({
       name,
       cpf,

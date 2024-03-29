@@ -5,7 +5,8 @@ const cadastrarUsuarioUseCase =  require('./cadastra-usuario.usecase');
 describe('Cadastra Usuário', function() {
    const usuarioRepository = {
       cadastrar: jest.fn(),
-      buscarPorCpf: jest.fn()
+      existePorCpf: jest.fn(),
+      existePorEmail: jest.fn()
    };
    test('Deve cadastrar um usuário', async () => {
       const usuarioDTO = {
@@ -32,7 +33,7 @@ describe('Cadastra Usuário', function() {
       await expect(() => sut({})).rejects.toThrow(new AppError(AppError.fieldsObligatory));
    });
 
-   test('Deve retornar erro se o usuário já estiver cadastrado', async () => {
+   test('Deve retornar erro se o cpf já estiver cadastrado', async () => {
       const usuarioDTO = {
         name: 'Carlos Silva',
         cpf: '123.456.789-00',
@@ -41,10 +42,26 @@ describe('Cadastra Usuário', function() {
         endereco: 'Rua dos Alfeneiros, 4'
       }
 
-      usuarioRepository.buscarPorCpf.mockResolvedValue(true);
+      usuarioRepository.existePorCpf.mockResolvedValue(true);
 
       const sut = cadastrarUsuarioUseCase({usuarioRepository});
       const output = await sut(usuarioDTO);
       await expect(output).toEqual(Either.left(AppError.userAlreadyRegistered));
    });
+
+   test('Deve retornar erro se o email já estiver cadastrado', async () => {
+    const usuarioDTO = {
+      name: 'Carlos Silva',
+      cpf: '123.456.789-00',
+      telefone: '(11) 99999-9999',
+      email: 'email@email.com',
+      endereco: 'Rua dos Alfeneiros, 4'
+    }
+
+    usuarioRepository.existePorEmail.mockResolvedValue(true);
+
+    const sut = cadastrarUsuarioUseCase({usuarioRepository});
+    const output = await sut(usuarioDTO);
+    await expect(output).toEqual(Either.left(AppError.userAlreadyRegistered));
+ });
 });
