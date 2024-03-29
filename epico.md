@@ -13,7 +13,7 @@ Cadastrar Usuarios que irá pegar livro emprestado, cadastrar livros na bibliote
 
 - Cadastrar Usuário
 
-  - CPF ou email devem ser únicos
+- CPF ou email devem ser únicos
 
 - Buscar usuário por CPF
 
@@ -53,3 +53,4 @@ Cadastrar Usuarios que irá pegar livro emprestado, cadastrar livros na bibliote
 [] cadastrar: ({nome, cpf, telefone, endereco, email}) => Promise<void>
 [] existePorCpf: (cpf) => Promise<boolean>
 [] existePorEmail: (email) => Promise<boolean>
+[] buscarUsurioPorCpf: (cpf) => Promise<Usuario>
