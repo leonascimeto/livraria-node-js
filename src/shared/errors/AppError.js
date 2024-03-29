@@ -4,6 +4,5 @@ module.exports = class AppError extends Error {
     this.message = message;
   }
 
-
   static dependencies = "Alguma dependencia obrigatoria não fornecida"
 }
