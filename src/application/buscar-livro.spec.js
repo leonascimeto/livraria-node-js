@@ -44,4 +44,10 @@ describe('Buscar Livro', function() {
     expect(() => buscarLivroUseCase({})).toThrow(new AppError(AppError.dependencies));
   })
 
+  test('deve retornar erro se os campos obrigatórios não forem informados', async () => {
+    const sut = buscarLivroUseCase({ livroRepository });
+    const output = await sut({});
+    expect(output.left).toEqual(AppError.fieldsObligatory);
+  })
+
 });
