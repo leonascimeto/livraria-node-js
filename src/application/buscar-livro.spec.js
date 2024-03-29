@@ -1,3 +1,4 @@
+const { AppError } = require('../shared/errors');
 const buscarLivroUseCase = require('./buscar-livro');
 describe('Buscar Livro', function() {
   const livroRepository = {
@@ -37,6 +38,10 @@ describe('Buscar Livro', function() {
 
     expect(output.right).toEqual([]);
     expect(livroRepository.buscarLivro).toHaveBeenCalledWith(input.valor);
+  })
+
+  test('deve retornar erro se o livroRepository não for informado',  () => {
+    expect(() => buscarLivroUseCase({})).toThrow(new AppError(AppError.dependencies));
   })
 
 });
