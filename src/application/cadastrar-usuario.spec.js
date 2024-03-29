@@ -1,7 +1,7 @@
 
 const { Either } = require('../shared/errors');
 const AppError = require('../shared/errors/AppError');
-const cadastrarUsuarioUseCase =  require('./cadastra-usuario.usecase');
+const cadastrarUsuarioUseCase =  require('./cadastrar-usuario.usecase');
 describe('Cadastra Usuário', function() {
    const usuarioRepository = {
       cadastrar: jest.fn(),

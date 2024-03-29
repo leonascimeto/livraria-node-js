@@ -1,5 +1,5 @@
 const { Either, AppError } = require("../shared/errors");
-const buscaUsuarioPorCpfUsecase = require("./busca-usuario-por-cpf.usecase");
+const buscaUsuarioPorCpfUsecase = require("./buscar-usuario-por-cpf.usecase");
 
 describe('Busca usuário por cpf UseCase', () => {
   const usuarioRepository = {
