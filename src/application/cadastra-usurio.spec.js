@@ -1,6 +1,9 @@
 
 const cadastrarUsuarioUseCase =  require('./cadastra-usuario.usecase');
 describe('Cadastra Usuário', function() {
+   const usuarioRepository = {
+      cadastrar: jest.fn()
+   };
    test('Deve cadastrar um usuário', async () => {
       const usuarioDTO = {
          nome: 'Carlos Silva',
@@ -10,8 +13,14 @@ describe('Cadastra Usuário', function() {
          endereco: 'Rua dos Alfeneiros, 4'
       }
 
-      const sut = cadastrarUsuarioUseCase();
+      const sut = cadastrarUsuarioUseCase({usuarioRepository});
       const out = await sut(usuarioDTO);
-      expect(out).toEqual(usuarioDTO);
+      expect(out).toBeUndefined();
+      expect(usuarioRepository.cadastrar).toHaveBeenCalledWith(usuarioDTO);
+      expect(usuarioRepository.cadastrar).toHaveBeenCalledTimes(1);
+   });
+
+   test('Deve retornar erro se o UserRepository não for informado', async () => {
+      expect(() => cadastrarUsuarioUseCase({})).toThrow('usuarioRepository não fornecido');
    });
 });
