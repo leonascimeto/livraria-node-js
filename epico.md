@@ -5,45 +5,49 @@ Cadastrar Usuarios que irá pegar livro emprestado, cadastrar livros na bibliote
 
 ## dados
 
-- usuário: [nome, cpf, email, telefone, logradouro]
-- livro: [titulo, autor, genero, quantidade, ISBN]
-- emprestimo: [usuario, livro, data_emprestimo, data_devolucao]
+-  usuário: [nome, cpf, email, telefone, logradouro]
+-  livro: [titulo, autor, genero, quantidade, ISBN]
+-  emprestimo: [usuario, livro, data_emprestimo, data_devolucao]
 
 ## UseCases (Regras de Negócio)
 
-- Cadastrar Usuário
+-  Cadastrar Usuário
 
-  - CPF ou email devem ser únicos
+   -  CPF ou email devem ser únicos
 
-- Buscar usuário por CPF
+-  Buscar usuário por CPF
 
-  - Retorna um usuário ou vazio
+   -  Retorna um usuário ou vazio
 
-- Cadastrar Livro
+-  Cadastrar Livro
 
-  - ISBN deve ser único
+   -  ISBN deve ser único
 
-- Buscar Livro por ISBN
+-  Buscar Livro por ISBN
 
-  - Retorna um livro ou vazio
+   -  Retorna um livro ou vazio
 
-- Emprestar Livro
+-  Emprestar Livro
 
-  - Data de retorno não pode ser maior que a data de saída
-  - Não pode emprestar livro que não existe
-  - Não pode emprestar livro que não tem em estoque
-  - Não pode emprestar livro para usuário que não existe
-  - Não pode emprestar livro para usuário que já tem 3 livros emprestados
-  - Não pode emprestar livro para usuário que está com livro de mesmo ISBN emprestado
-  - Não pode emprestar livro para usuário que está com pendência de devolução
-  - Ao cadastrar empréstimo, será enviado um email para o usuário com a data de devolução, data de emprestimo e informações do livro
+   -  Data de retorno não pode ser maior que a data de saída
+   -  Não pode emprestar livro que não existe
+   -  Não pode emprestar livro que não tem em estoque
+   -  Não pode emprestar livro para usuário que não existe
+   -  Não pode emprestar livro para usuário que já tem 3 livros emprestados
+   -  Não pode emprestar livro para usuário que está com livro de mesmo ISBN emprestado
+   -  Não pode emprestar livro para usuário que está com pendência de devolução
+   -  Ao cadastrar empréstimo, será enviado um email para o usuário com a data de devolução, data de emprestimo e informações do livro
 
-- Devolver Livro
+-  Devolver Livro
 
-  - Não pode devolver livro que não foi emprestado
-  - Caso usuário devolva o livro após a data de devolução, será cobrado uma multa fixa de R$ 10,00
+   -  Não pode devolver livro que não foi emprestado
+   -  Caso usuário devolva o livro após a data de devolução, será cobrado uma multa fixa de R$ 10,00
 
-- Buscar Empréstimos
-  - Retorna todos os empréstimos
+-  Buscar Empréstimos
+   -  Retorna todos os empréstimos
 
 ## Estruturas
+
+## UsuarioRepositry
+
+[] cadastrar: ({nome, cpf, telefone, endereco, email}) => Promise<void>
