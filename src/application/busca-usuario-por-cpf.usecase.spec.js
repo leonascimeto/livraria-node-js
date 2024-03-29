@@ -37,4 +37,13 @@ describe('Busca usuário por cpf UseCase', () => {
     expect(usuarioRepository.buscaUsuarioPorCpf).toHaveBeenCalledWith(cpf);
   });
 
+  test('deve retornar erro se o usuarioRepository não for informado',  () => {
+    expect(() => buscaUsuarioPorCpfUsecase({})).toThrow(new AppError(AppError.dependencies));
+  })  
+
+  test('deve retornar erro se os campos obrigatórios não forem informados', async () => {
+    const sut = buscaUsuarioPorCpfUsecase({ usuarioRepository });
+    const output = await sut({cpf: null});
+    expect(output.left).toEqual(Either.left(AppError.fieldsObligatory));
+  }) 
 });
