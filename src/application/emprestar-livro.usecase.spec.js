@@ -59,4 +59,14 @@ describe('Emprestar Livro UseCase', function() {
     expect(output).toEqual(Either.left(AppError.usuarioComLimiteEmprestimos));
   });
 
+  test('deve retornar erro se o emprestimoRepository não for informado',  () => {
+    expect(() => emprestarLivroUsecase({})).toThrow(new AppError(AppError.dependencies));
+  });
+
+  test('deve retornar erro se os campos obrigatórios não forem informados', async () => {
+    const sut = emprestarLivroUsecase({ emprestimoRepository });
+    const output = await sut({});
+    expect(output).toEqual(Either.left(AppError.fieldsObligatory));
+  });
+
 });
