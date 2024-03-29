@@ -48,9 +48,15 @@ Cadastrar Usuarios que irá pegar livro emprestado, cadastrar livros na bibliote
 
 ## Estruturas
 
-## UsuarioRepositry
+### UsuarioRepositry
 
 [] cadastrar: ({nome, cpf, telefone, endereco, email}) => Promise<void>
 [] existePorCpf: (cpf) => Promise<boolean>
 [] existePorEmail: (email) => Promise<boolean>
 [] buscarUsurioPorCpf: (cpf) => Promise<Usuario>
+
+### LivroRepository
+
+[] cadastrar: ({titulo, autor, genero, quantidade, ISBN}) => Promise<void>
+[] existePorISBN: (ISBN) => Promise<boolean>
+[] buscarLivroPorISBN: (ISBN) => Promise<Livro>
