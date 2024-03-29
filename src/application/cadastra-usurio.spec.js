@@ -1,4 +1,5 @@
 
+const { Either } = require('../shared/errors');
 const AppError = require('../shared/errors/AppError');
 const cadastrarUsuarioUseCase =  require('./cadastra-usuario.usecase');
 describe('Cadastra Usuário', function() {
@@ -15,10 +16,9 @@ describe('Cadastra Usuário', function() {
         endereco: 'Rua dos Alfeneiros, 4'
       }
      
-
       const sut = cadastrarUsuarioUseCase({usuarioRepository});
       const out = await sut(usuarioDTO);
-      expect(out).toBeUndefined();
+      expect(out.right).toBeNull();
       expect(usuarioRepository.cadastrar).toHaveBeenCalledWith(usuarioDTO);
       expect(usuarioRepository.cadastrar).toHaveBeenCalledTimes(1);
    });
@@ -44,6 +44,7 @@ describe('Cadastra Usuário', function() {
       usuarioRepository.buscarPorCpf.mockResolvedValue(true);
 
       const sut = cadastrarUsuarioUseCase({usuarioRepository});
-      await expect(() => sut(usuarioDTO)).rejects.toThrow(new AppError(AppError.userAlreadyRegistered));
+      const output = await sut(usuarioDTO);
+      await expect(output).toEqual(Either.left(AppError.userAlreadyRegistered));
    });
 });

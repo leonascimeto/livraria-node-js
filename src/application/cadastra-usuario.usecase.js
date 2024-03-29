@@ -1,4 +1,4 @@
-const AppError = require("../shared/errors/AppError");
+const { Either, AppError } = require("../shared/errors");
 
 module.exports = function cadastrarUsuarioUseCase({usuarioRepository}) {
   if (!usuarioRepository) throw new AppError(AppError.dependencies);
@@ -8,7 +8,7 @@ module.exports = function cadastrarUsuarioUseCase({usuarioRepository}) {
       throw new AppError(AppError.fieldsObligatory);
 
     const usuarioJaCadastrado = await usuarioRepository.buscarPorCpf(cpf);
-    if (usuarioJaCadastrado) throw new AppError(AppError.userAlreadyRegistered);
+    if (usuarioJaCadastrado) return Either.left(AppError.userAlreadyRegistered);
      
     await usuarioRepository.cadastrar({
       name,
@@ -17,5 +17,7 @@ module.exports = function cadastrarUsuarioUseCase({usuarioRepository}) {
       email,
       endereco
     })
+
+    return Either.right(null);
   };
 }
