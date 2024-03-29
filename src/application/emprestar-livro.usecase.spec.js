@@ -3,7 +3,7 @@ const emprestarLivroUsecase = require("./emprestar-livro.usecase");
 
 describe('Emprestar Livro UseCase', function() {
   const emprestimoRepository = {
-    existeLivroISBNPendenteUsuario: jest.fn(),
+    existeLivroPendenteUsuario: jest.fn(),
     quantidadeLivrosEmprestadoPorUsuario: jest.fn(),
     emprestarLivro: jest.fn(),
   };
@@ -30,7 +30,7 @@ describe('Emprestar Livro UseCase', function() {
 
   test('deve retornar error se a data de saída for maior que a data de retorno', async () => {
     const sut = emprestarLivroUsecase({ emprestimoRepository });
-    
+
     const output = await sut({
       ...emprestarLivroPayload,
       data_saida: new Date('2024-02-23'),
@@ -42,7 +42,7 @@ describe('Emprestar Livro UseCase', function() {
 
   test('não deve permitir que um livro seja emprestado para um usuário que já possui o livro', async () => {
     const sut = emprestarLivroUsecase({ emprestimoRepository });
-    emprestimoRepository.existeLivroISBNPendenteUsuario.mockResolvedValue(true);
+    emprestimoRepository.existeLivroPendenteUsuario.mockResolvedValue(true);
 
     const output = await sut(emprestarLivroPayload);
 
@@ -51,7 +51,7 @@ describe('Emprestar Livro UseCase', function() {
 
   test('não deve permitir que um usuário pegue emprestado mais de 3 livros', async () => {
     const sut = emprestarLivroUsecase({ emprestimoRepository });
-    emprestimoRepository.existeLivroISBNPendenteUsuario.mockResolvedValue(false);
+    emprestimoRepository.existeLivroPendenteUsuario.mockResolvedValue(false);
     emprestimoRepository.quantidadeLivrosEmprestadoPorUsuario.mockResolvedValue(3);
 
     const output = await sut(emprestarLivroPayload);

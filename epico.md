@@ -59,4 +59,10 @@ Cadastrar Usuarios que irá pegar livro emprestado, cadastrar livros na bibliote
 
 [] cadastrar: ({titulo, autor, genero, quantidade, ISBN}) => Promise<void>
 [] existePorISBN: (ISBN) => Promise<boolean>
-[] buscarLivroPorISBN: (ISBN) => Promise<Livro>
+[] buscarLivro: (ISBN) => Promise<Livro>
+
+#### EmprestimoRepository
+
+[] emprestar: ({usuario_id, livro_id, data_saida, data_retorno}) => Promise<void>
+[] existeLivroPendenteUsuario: ({usuario_id, livro_id}) => Promise<boolean>
+[] quantidadeLivrosEmprestadoPorUsuario: (usuario_id) => Promise<number>
