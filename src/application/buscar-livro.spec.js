@@ -26,4 +26,17 @@ describe('Buscar Livro', function() {
     expect(livroRepository.buscarLivro).toHaveBeenCalledTimes(1);
   });
 
+  test('deve retornar um array vazio se não encontrar o livro', async () => {
+    const input = {
+      valor: 'livro inexistente',
+    }
+
+    livroRepository.buscarLivro.mockResolvedValue([]);
+    const sut = buscarLivroUseCase({ livroRepository });
+    const output = await sut(input);
+
+    expect(output.right).toEqual([]);
+    expect(livroRepository.buscarLivro).toHaveBeenCalledWith(input.valor);
+  })
+
 });
