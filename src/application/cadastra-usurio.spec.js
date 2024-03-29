@@ -7,11 +7,11 @@ describe('Cadastra Usuário', function() {
    };
    test('Deve cadastrar um usuário', async () => {
       const usuarioDTO = {
-         nome: 'Carlos Silva',
-         cpf: '123.456.789-00',
-         telefone: '(11) 99999-9999',
-         email: 'email@email.com',
-         endereco: 'Rua dos Alfeneiros, 4'
+        name: 'Carlos Silva',
+        cpf: '123.456.789-00',
+        telefone: '(11) 99999-9999',
+        email: 'email@email.com',
+        endereco: 'Rua dos Alfeneiros, 4'
       }
 
       const sut = cadastrarUsuarioUseCase({usuarioRepository});
@@ -23,5 +23,10 @@ describe('Cadastra Usuário', function() {
 
    test('Deve retornar erro se o UserRepository não for informado', async () => {
       expect(() => cadastrarUsuarioUseCase({})).toThrow(new AppError(AppError.dependencies));
+   });
+
+   test('Deve retornar erro se o parametros obrigatorios não for informado', async () => {
+      const sut = cadastrarUsuarioUseCase({usuarioRepository});
+      await expect(() => sut({})).rejects.toThrow(new AppError(AppError.fieldsObligatory));
    });
 });

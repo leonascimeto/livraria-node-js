@@ -10,4 +10,5 @@ describe('AppError', function() {
     const sut = new AppError('mensagem de erro');
     expect(sut.message).toBe('mensagem de erro');
   });
+  
 });
