@@ -1,3 +1,4 @@
+const { Either, AppError } = require("../shared/errors");
 const buscaUsuarioPorCpfUsecase = require("./busca-usuario-por-cpf.usecase");
 
 describe('Busca usuário por cpf UseCase', () => {
@@ -44,6 +45,6 @@ describe('Busca usuário por cpf UseCase', () => {
   test('deve retornar erro se os campos obrigatórios não forem informados', async () => {
     const sut = buscaUsuarioPorCpfUsecase({ usuarioRepository });
     const output = await sut({cpf: null});
-    expect(output.left).toEqual(Either.left(AppError.fieldsObligatory));
+    expect(output).toEqual(Either.left(AppError.fieldsObligatory));
   }) 
 });
