@@ -23,5 +23,8 @@ module.exports = new EntitySchema({
     endereco: {
       type: 'varchar',
     },
+    telefone: {
+      type: 'varchar',
+    },
   },
 });
