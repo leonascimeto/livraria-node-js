@@ -1,3 +1,4 @@
+const { AppError } = require("../shared/errors");
 const burcarEmprestimosPendentesUsecase = require("./burcar-emprestimos-pendentes.usecase");
 
 
@@ -43,5 +44,9 @@ describe('Buscar Emprestimos Pendentes', function() {
     expect(output.right).toEqual(emprestimosPendentesMock);
     expect(output.right).toHaveLength(2);
     expect(emprestimoRepository.buscarEmprestimosPendentes).toHaveBeenCalledTimes(1);
+  });
+
+  test('deve retornar erro se emprestimoRepository não for informado', () => {
+    expect(() => burcarEmprestimosPendentesUsecase({})).toThrow(new AppError(AppError.dependencies));
   });
 });

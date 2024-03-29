@@ -1,4 +1,4 @@
-const { Either } = require("../shared/errors");
+const { Either, AppError } = require("../shared/errors");
 
 module.exports = function buscarEmprestimosPendentesUseCase({ emprestimoRepository }) {
   if(!emprestimoRepository) throw new AppError(AppError.dependencies);
