@@ -171,4 +171,22 @@ describe('Emprestimo Repository Typeorm', function() {
     expect(quantidade).toBe(2);
   });
 
+  test('deve retornar um emprestimo por id', async function () {
+    const livroRep = await typeOrmLivrosRepository.save(livro);
+    const usuarioRep = await typeOrmUsuariosRepository.save(usuario);
+    const { id } = await typeOrmEmprestimosRepository.save({
+      ...emprestimo,
+      livro_id: livroRep.id,
+      usuario_id: usuarioRep.id,
+    });
+
+    const emprestimoEncontrado = await sut.buscarEmprestimoPorId(id);
+
+    expect(emprestimoEncontrado.id).toBe(id);
+    expect(emprestimoEncontrado.data_saida).toBe(emprestimo.data_saida);
+    expect(emprestimoEncontrado.data_retorno).toBe(emprestimo.data_retorno);
+    expect(emprestimoEncontrado.livro.titulo).toBe(livro.titulo);
+    expect(emprestimoEncontrado.usuario.cpf).toBe(usuario.cpf);
+  });
+
 });

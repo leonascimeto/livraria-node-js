@@ -52,8 +52,27 @@ const emprestimoRepository = function() {
     });
   }
 
+  const buscarEmprestimoPorId = async function(id) {
+    return await typeOrmEmprestimosRepository.findOne({
+      where: { id },
+      relations: ['livro', 'usuario'],
+      select: {
+        id: true,
+        data_saida: true,
+        data_retorno: true,
+        data_devolucao: true,
+        livro: {
+          titulo: true,
+        },
+        usuario: {
+          cpf: true,
+          nome: true,
+        },
+      },
+     });
+  }
 
-  return { emprestar, devolver, buscarEmprestimosPendentes, existeLivroPendenteUsuario, quantidadeLivrosEmprestadoPorUsuario }
+  return { emprestar, devolver, buscarEmprestimosPendentes, existeLivroPendenteUsuario, quantidadeLivrosEmprestadoPorUsuario, buscarEmprestimoPorId }
 }
 
 module.exports = { emprestimoRepository, typeOrmEmprestimosRepository }
