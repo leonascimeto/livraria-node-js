@@ -11,7 +11,6 @@ describe('Emprestimo Repository Typeorm', function() {
     usuario_id: 1,
     data_retorno: '2021-10-10',
     data_saida: '2021-10-01',
-    data_devolucao: '2021-10-10',
   }
 
   const livro = {
@@ -22,6 +21,14 @@ describe('Emprestimo Repository Typeorm', function() {
     isbn: 'isbn',
   }
 
+  const livro2 = {
+    titulo: 'titulo2',
+    quantidade: 2,
+    autor: 'autor2',
+    genero: 'genero2',
+    isbn: 'isbn2',
+  }
+
   const usuario = {
     nome: 'Carlos Silva', 
     cpf: '123.456.789-00', 
@@ -30,12 +37,22 @@ describe('Emprestimo Repository Typeorm', function() {
     telefone: '(11) 99999-9999'
   }
 
+  const usuario2 = {
+    nome: 'Carlos Silva2', 
+    cpf: '123.456.789-01', 
+    email: 'email2@email', 
+    endereco: 'Rua dos Alfeneiros, 5', 
+    telefone: '(11) 99999-9998'
+  }
+
   beforeAll(() => {
     sut = emprestimoRepository();
   });
 
   beforeEach(async () => {
-    await typeOrmEmprestimosRepository.clear();
+    await typeOrmEmprestimosRepository.delete({});
+    await typeOrmUsuariosRepository.delete({});
+    await typeOrmLivrosRepository.delete({});
   });
 
   test('deve retornar void ao criar um emprestimo', async function () {
@@ -59,16 +76,42 @@ describe('Emprestimo Repository Typeorm', function() {
     });
 
     const devolver = await sut.devolver({
-      emprestimo_id: remprestimoRep.id,
+      id: remprestimoRep.id,
       data_devolucao: '2021-10-10'
     });
 
     const buscaEmprestimoPorId = await typeOrmEmprestimosRepository.findOneBy({ id: remprestimoRep.id });
 
-    console.log('buscaEmprestimoPorId', buscaEmprestimoPorId);
-
     expect(devolver.data_retorno).toBe(remprestimoRep.data_retorno);
-    expect(buscaEmprestimoPorId.data_devolucao).toBe(emprestimo.data_devolucao);
+    expect(buscaEmprestimoPorId.data_devolucao).toBe('2021-10-10');
+  });
+
+  test('deve retornar emprestimos pendentes', async function () {
+    const livroRep = await typeOrmLivrosRepository.save(livro);
+    const livroRep2 = await typeOrmLivrosRepository.save(livro2);
+    const usuarioRep = await typeOrmUsuariosRepository.save(usuario);
+    const op = await typeOrmEmprestimosRepository.save([{
+      ...emprestimo,
+      livro_id: livroRep.id,
+      usuario_id: usuarioRep.id,
+      data_devolucao: '2021-10-10'
+    },
+    {
+      data_retorno: '2021-10-10',
+      data_saida: '2021-10-01',
+      livro_id: livroRep2.id,
+      usuario_id: usuarioRep.id
+    }]);
+
+    const emprestimosPendentes = await sut.buscarEmprestimosPendentes();
+
+    expect(emprestimosPendentes).toHaveLength(1);
+    expect(emprestimosPendentes[0].data_devolucao).toBeUndefined();
+    expect(emprestimosPendentes[0].id).toBeDefined();
+    expect(emprestimosPendentes[0].data_saida).toBe('2021-10-01');
+    expect(emprestimosPendentes[0].data_retorno).toBe('2021-10-10');
+    expect(emprestimosPendentes[0].livro.titulo).toBe(livro2.titulo);
+    expect(emprestimosPendentes[0].usuario.cpf).toBe(usuarioRep.cpf);
   });
 
 });

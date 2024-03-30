@@ -1,3 +1,4 @@
+const { IsNull } = require("typeorm")
 const { typeormServer } = require("../setup")
 
 const typeOrmEmprestimosRepository = typeormServer.getRepository("Emprestimo")
@@ -9,11 +10,30 @@ const emprestimoRepository = function() {
 
   const devolver = async function({ id, data_devolucao }) {
     await typeOrmEmprestimosRepository.update({ id }, { data_devolucao });
-    const {data_retorno} = await typeOrmEmprestimosRepository.findOneBy({ id });
+    const { data_retorno } = await typeOrmEmprestimosRepository.findOneBy({ id });
     return { data_retorno }
   }
 
-  return { emprestar, devolver }
+  const buscarEmprestimosPendentes = async function() {
+    return await typeOrmEmprestimosRepository.find({
+      where: { data_devolucao: IsNull() },
+      relations: ['livro', 'usuario'],
+      select: {
+        id: true,
+        data_saida: true,
+        data_retorno: true,
+        livro: {
+          titulo: true,
+        },
+        usuario: {
+          cpf: true,
+          nome: true,
+        },
+      },
+    });
+  }
+
+  return { emprestar, devolver, buscarEmprestimosPendentes }
 }
 
 module.exports = { emprestimoRepository, typeOrmEmprestimosRepository }
