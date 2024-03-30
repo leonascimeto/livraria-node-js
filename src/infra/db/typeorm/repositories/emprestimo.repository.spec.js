@@ -149,4 +149,26 @@ describe('Emprestimo Repository Typeorm', function() {
     expect(existe).toBe(true);
   });
 
+  test('deve retornar a quantidade de livros emprestados por usuario', async function () {
+    const livroRep = await typeOrmLivrosRepository.save(livro);
+    const livroRep2 = await typeOrmLivrosRepository.save(livro2);
+    const usuarioRep = await typeOrmUsuariosRepository.save(usuario);
+    await typeOrmEmprestimosRepository.save([
+      {
+        ...emprestimo,
+        livro_id: livroRep.id,
+        usuario_id: usuarioRep.id,
+      },
+      { 
+        ...emprestimo,
+        livro_id: livroRep2.id,
+        usuario_id: usuarioRep.id,
+      }
+    ]);
+
+    const quantidade = await sut.quantidadeLivrosEmprestadoPorUsuario(usuarioRep.id);
+
+    expect(quantidade).toBe(2);
+  });
+
 });
