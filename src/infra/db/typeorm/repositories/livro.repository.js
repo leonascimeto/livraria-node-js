@@ -7,7 +7,11 @@ const livroRepository = function () {
     await typeOrmLivrosRepository.save({ autor, genero, titulo, isbn, quantidade });
   };
 
-  return { cadastrar };
+  const existePorIsbn = async function (isbn) {
+    return await typeOrmLivrosRepository.count({ where: { isbn } }) === 0 ? false : true;
+  }
+
+  return { cadastrar, existePorIsbn };
 }
 
 module.exports = { livroRepository, typeOrmLivrosRepository };
