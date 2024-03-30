@@ -41,12 +41,34 @@ describe('Emprestimo Repository Typeorm', function() {
   test('deve retornar void ao criar um emprestimo', async function () {
     const livroRep = await typeOrmLivrosRepository.save(livro);
     const usuarioRep = await typeOrmUsuariosRepository.save(usuario);
-    const emprestimoCriado = await sut.cadastrar({
+    const emprestimoCriado = await sut.emprestar({
       ...emprestimo,
       livro_id: livroRep.id,
       usuario_id: usuarioRep.id
     });
     expect(emprestimoCriado).toBeUndefined();
+  });
+
+  test('deve realizar a devolução', async function () {
+    const livroRep = await typeOrmLivrosRepository.save(livro);
+    const usuarioRep = await typeOrmUsuariosRepository.save(usuario);
+    const remprestimoRep = await typeOrmEmprestimosRepository.save({
+      ...emprestimo,
+      livro_id: livroRep.id,
+      usuario_id: usuarioRep.id
+    });
+
+    const devolver = await sut.devolver({
+      emprestimo_id: remprestimoRep.id,
+      data_devolucao: '2021-10-10'
+    });
+
+    const buscaEmprestimoPorId = await typeOrmEmprestimosRepository.findOneBy({ id: remprestimoRep.id });
+
+    console.log('buscaEmprestimoPorId', buscaEmprestimoPorId);
+
+    expect(devolver.data_retorno).toBe(remprestimoRep.data_retorno);
+    expect(buscaEmprestimoPorId.data_devolucao).toBe(emprestimo.data_devolucao);
   });
 
 });
