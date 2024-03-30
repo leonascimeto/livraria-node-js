@@ -33,5 +33,17 @@ describe('Livro Repository Typeorm', function() {
     const existe = await sut.existePorIsbn(livro.isbn);
     expect(existe).toBe(false);
   });
-  
+
+  test('deve retornar um livro por titulo', async function () {
+    await typeOrmLivrosRepository.save(livro);
+    const livroEncontrado = await sut.buscarPorTituloOuIsbn(livro.titulo);
+    expect(livroEncontrado[0].titulo).toBe(livro.titulo);
+  });
+
+  test('deve retornar um livro por isbn', async function () {
+    await typeOrmLivrosRepository.save(livro);
+    const livroEncontrado = await sut.buscarPorTituloOuIsbn(livro.isbn);
+    expect(livroEncontrado[0].isbn).toBe(livro.isbn);
+  });
+
 });
