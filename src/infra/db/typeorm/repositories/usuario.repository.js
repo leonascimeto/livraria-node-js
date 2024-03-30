@@ -13,7 +13,19 @@ const usuarioRepository = function(){
     });
   }
 
-  return {cadastrar, buscarPorCpf}
+  const existePorEmail = async function(email){
+    return await typeOrmUsuariosRepository.count(
+      {where: {email}}
+    ) === 0 ? false : true;
+  }
+
+  const existePorCpf = async function(cpf){
+    return await typeOrmUsuariosRepository.count(
+      {where: {cpf}}
+    ) === 0 ? false : true;
+  }
+
+  return {cadastrar, buscarPorCpf, existePorEmail, existePorCpf}
 }
 
 module.exports = {usuarioRepository, typeOrmUsuariosRepository}
