@@ -90,7 +90,7 @@ describe('Emprestimo Repository Typeorm', function() {
     const livroRep = await typeOrmLivrosRepository.save(livro);
     const livroRep2 = await typeOrmLivrosRepository.save(livro2);
     const usuarioRep = await typeOrmUsuariosRepository.save(usuario);
-    const op = await typeOrmEmprestimosRepository.save([{
+    await typeOrmEmprestimosRepository.save([{
       ...emprestimo,
       livro_id: livroRep.id,
       usuario_id: usuarioRep.id,
@@ -112,6 +112,41 @@ describe('Emprestimo Repository Typeorm', function() {
     expect(emprestimosPendentes[0].data_retorno).toBe('2021-10-10');
     expect(emprestimosPendentes[0].livro.titulo).toBe(livro2.titulo);
     expect(emprestimosPendentes[0].usuario.cpf).toBe(usuarioRep.cpf);
+  });
+
+  test('deve retornar false se não existir livro pendente para o usuario', async function () {
+    const livroRep = await typeOrmLivrosRepository.save(livro);
+    const usuarioRep = await typeOrmUsuariosRepository.save(usuario);
+    await typeOrmEmprestimosRepository.save({
+      ...emprestimo,
+      livro_id: livroRep.id,
+      usuario_id: usuarioRep.id,
+      data_devolucao: '2021-10-10'
+    });
+
+    const existe = await sut.existeLivroPendenteUsuario({
+      livro_id: livroRep.id,
+      usuario_id: usuarioRep.id
+    });
+
+    expect(existe).toBe(false);
+  });
+
+  test('deve retornar true se existir livro pendente para o usuario', async function () {
+    const livroRep = await typeOrmLivrosRepository.save(livro);
+    const usuarioRep = await typeOrmUsuariosRepository.save(usuario);
+    await typeOrmEmprestimosRepository.save({
+      ...emprestimo,
+      livro_id: livroRep.id,
+      usuario_id: usuarioRep.id,
+    });
+
+    const existe = await sut.existeLivroPendenteUsuario({
+      livro_id: livroRep.id,
+      usuario_id: usuarioRep.id
+    });
+
+    expect(existe).toBe(true);
   });
 
 });

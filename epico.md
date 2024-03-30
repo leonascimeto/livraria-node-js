@@ -63,7 +63,7 @@ Uma biblioteca pequena gostaria de controlar a entrada e saída de livros, cadas
 ### EmprestimoRepository
 
 - [x] emprestar: ({usuario_id, livro_id, data_saida, data_retorno}) => Promise<string>
-- [ ] existeLivroPendenteUsuario: ({usuario_id, livro_id}) => Promise<boolean>
+- [x] existeLivroPendenteUsuario: ({usuario_id, livro_id}) => Promise<boolean>
 - [ ] quantidadeLivrosEmprestadoPorUsuario: (usuario_id) => Promise<number>
 - [x] devolverLivro: ({emprestimo_id, data_devolucao}) => Promise<Date>
-- [ ] buscarEmprestimosPendentes: () => Promise<Emprestimo[]>
+- [x] buscarEmprestimosPendentes: () => Promise<Emprestimo[]>
