@@ -10,9 +10,10 @@ module.exports = function httpServer() {
 
   app.use((err, req, res, next) => {
     if (err instanceof ZodError) {
+      console.log(err.flatten());
       return res.status(422).json({ message: 'Erro na validação', errors: err.flatten() });
     }
-    if(process.env.NODE_ENV !== 'production') console.error(err);
+    if(process.env.NODE_ENV !== 'production') console.log(err.message || err);
     return res.status(500).json({ message: 'Erro interno do servidor' });
   });
 

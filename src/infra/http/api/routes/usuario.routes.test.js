@@ -42,4 +42,13 @@ describe('Usuario Routes', function() {
     });
   });
 
+  test('GET /usuarios/cpf/:cpf - deve retornar 200 com um um usuario', async function() {
+    await typeOrmUsuariosRepository.save(usuarioDTO);
+
+    const { statusCode, body } = await request(app)
+      .get(`/usuarios/cpf/123.456.789-00`);
+
+    expect(statusCode).toBe(200);
+  });
+
 });
