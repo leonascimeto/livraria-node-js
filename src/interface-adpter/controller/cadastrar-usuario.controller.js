@@ -20,7 +20,6 @@ const zodSchema = z.object({
 module.exports = async function cadastrarUsuarioController({
   cadastraUsuarioUseCase, httpRequest
 }) {
-  console.log(cadastraUsuarioUseCase, httpRequest);
   if(!cadastraUsuarioUseCase || !httpRequest) throw new AppError(AppError.dependencies);
   const { nome, cpf, endereco, telefone, email } = zodSchema.parse(httpRequest.body);
   const output = await cadastraUsuarioUseCase({ nome, cpf, endereco, telefone, email});
