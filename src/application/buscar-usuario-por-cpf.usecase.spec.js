@@ -3,7 +3,7 @@ const buscaUsuarioPorCpfUsecase = require("./buscar-usuario-por-cpf.usecase");
 
 describe('Busca usuário por cpf UseCase', () => {
   const usuarioRepository = {
-    buscaUsuarioPorCpf: jest.fn()
+    buscarPorCpf: jest.fn()
   };
 
   const usuarioMock = {
@@ -19,23 +19,23 @@ describe('Busca usuário por cpf UseCase', () => {
     const cpf = 'cpf_valido'
 
     const sut = buscaUsuarioPorCpfUsecase({ usuarioRepository });
-    usuarioRepository.buscaUsuarioPorCpf.mockResolvedValue(usuarioMock);
+    usuarioRepository.buscarPorCpf.mockResolvedValue(usuarioMock);
 
     const output = await sut({ cpf });
     expect(output.right).toEqual(usuarioMock);
-    expect(usuarioRepository.buscaUsuarioPorCpf).toHaveBeenCalledWith(cpf);
-    expect(usuarioRepository.buscaUsuarioPorCpf).toHaveBeenCalledTimes(1);
+    expect(usuarioRepository.buscarPorCpf).toHaveBeenCalledWith(cpf);
+    expect(usuarioRepository.buscarPorCpf).toHaveBeenCalledTimes(1);
   });
 
   test('Deve retornar null se o cpf não for informado', async () => {
     const cpf = 'cpf_nao_cadastrado'
 
     const sut = buscaUsuarioPorCpfUsecase({ usuarioRepository });
-    usuarioRepository.buscaUsuarioPorCpf.mockResolvedValue(null);
+    usuarioRepository.buscarPorCpf.mockResolvedValue(null);
     const output = await sut({ cpf });
 
     expect(output.right).toBeNull();
-    expect(usuarioRepository.buscaUsuarioPorCpf).toHaveBeenCalledWith(cpf);
+    expect(usuarioRepository.buscarPorCpf).toHaveBeenCalledWith(cpf);
   });
 
   test('deve retornar erro se o usuarioRepository não for informado',  () => {
