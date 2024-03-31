@@ -59,4 +59,15 @@ describe('Usuario Routes', function() {
     expect(body).toBe(null);
   });
 
+  test('GET /usuarios/cpf/:cpf - deve retornar exception 422 se o cpf for inválido', async function() {
+    const { statusCode, body } = await request(app)
+      .get(`/usuarios/cpf/123.456.789`);
+
+    expect(statusCode).toBe(422);
+    expect(body.message).toEqual('Erro na validação');
+    expect(body.errors.fieldErrors).toEqual({
+      cpf: ['CPF inválido']
+    });
+  });
+
 });
