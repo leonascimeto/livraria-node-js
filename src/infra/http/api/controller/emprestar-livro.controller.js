@@ -1,7 +1,7 @@
-const httpResponse = require("../http-response");
-const { AppError } = require("../../../shared/errors");
+const { AppError } = require("../../../../shared/errors");
 
 const { z } = require("zod");
+const httpResponse = require("../../http-response");
 
 const zodSchema = z.object({
   livro_id: z.number({required_error: "ID do livro é obrigatório"}),

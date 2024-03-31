@@ -1,6 +1,6 @@
 const { z } = require("zod");
-const httpResponse = require("../http-response");
-const { AppError } = require("../../../shared/errors");
+const httpResponse = require("../../http-response");
+const { AppError } = require("../../../../shared/errors");
 
 const zodSchema = z.object({
   cpf: z

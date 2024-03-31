@@ -1,5 +1,5 @@
-const httpResponse = require("../http-response");
-const { AppError } = require("../../../shared/errors");
+const httpResponse = require("../../http-response");
+const { AppError } = require("../../../../shared/errors");
 
 module.exports = async function buscarEmprestimosPendentesController({ buscarEmprestimosPendentesUseCase }) {
   if(!buscarEmprestimosPendentesUseCase) throw new AppError(AppError.dependencies);
