@@ -51,4 +51,12 @@ describe('Usuario Routes', function() {
     expect(statusCode).toBe(200);
   });
 
+  test('GET /usuarios/cpf/:cpf - deve retornar 200 e null se o usuario não existir', async function() {
+    const { statusCode, body } = await request(app)
+      .get(`/usuarios/cpf/123.456.789-00`);
+
+    expect(statusCode).toBe(200);
+    expect(body).toBe(null);
+  });
+
 });
