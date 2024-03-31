@@ -22,9 +22,24 @@ describe('Usuario Routes', function() {
       .post('/usuarios')
       .send(usuarioDTO);
 
-
     expect(statusCode).toBe(201);
     expect(body).toBe(null);
+  });
+
+  test('POST /usuarios - deve retornar 422 se o body não for enviado', async function() {
+    const {statusCode, body} = await request(app)
+      .post('/usuarios')
+      .send({});
+
+    expect(statusCode).toBe(422);
+    expect(body.message).toEqual('Erro na validação');
+    expect(body.errors.fieldErrors).toEqual({
+      nome: ['Nome é obrigatório'],
+      cpf: ['CPF é obrigatório'],
+      telefone: ['Telefone é obrigatório'],
+      email: ['Email é obrigatório'],
+      endereco: ['Endereço é obrigatório']
+    });
   });
 
 });
