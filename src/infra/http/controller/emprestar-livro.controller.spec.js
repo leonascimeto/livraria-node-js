@@ -1,5 +1,5 @@
-const httpResponse = require("../../helpers/http.response");
-const { Either, AppError } = require("../../shared/errors");
+const httpResponse = require("../http-response");
+const { Either, AppError } = require("../../../shared/errors");
 const emprestarLivroController = require("./emprestar-livro.controller");
 
 describe('Emprestar Livro Controller', function() {

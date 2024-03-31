@@ -1,5 +1,5 @@
 const { AppError } = require('../shared/errors');
-const buscarLivroUseCase = require('./buscar-livro');
+const buscarLivroUseCase = require('./buscar-livro.usecase');
 describe('Buscar Livro', function() {
   const livroRepository = {
     buscarLivro: jest.fn()

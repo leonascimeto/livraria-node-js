@@ -1,5 +1,5 @@
-const httpResponse = require("../../helpers/http.response");
-const { AppError } = require("../../shared/errors");
+const httpResponse = require("../http-response");
+const { AppError } = require("../../../shared/errors");
 
 const { z } = require("zod");
 

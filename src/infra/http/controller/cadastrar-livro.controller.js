@@ -1,6 +1,6 @@
 const { z } = require("zod");
-const { AppError } = require("../../shared/errors");
-const httpResponse = require("../../helpers/http.response");
+const { AppError } = require("../../../shared/errors");
+const httpResponse = require("../http-response");
 
 const zodSchema = z.object({
   titulo: z.string({required_error: "Título é obrigatório"}),

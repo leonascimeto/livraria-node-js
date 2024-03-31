@@ -5,7 +5,7 @@ module.exports = function httpServer() {
   app.use(express.json());
 
   const listen = (port, callback) => {
-    app.listen(port, callback);
+    app.listen(port, () => console.log(`Server running on port ${port}`));
   } 
 
   return {

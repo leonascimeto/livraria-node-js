@@ -1,5 +1,5 @@
-const httpResponse = require("../../helpers/http.response");
-const { Either, AppError } = require("../../shared/errors");
+const httpResponse = require("../http-response");
+const { Either, AppError } = require("../../../shared/errors");
 const buscarEmprestimosPendentesController = require("./buscar-emprestimos-pendentes");
 
 describe('Buscar Emprestimos Pendentes Controller', function() {

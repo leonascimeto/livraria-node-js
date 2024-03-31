@@ -1,6 +1,6 @@
 const { ZodError } = require("zod");
-const httpResponse = require("../../helpers/http.response");
-const { Either, AppError } = require("../../shared/errors");
+const httpResponse = require("../http-response");
+const { Either, AppError } = require("../../../shared/errors");
 const buscarUsuarioPorCpfController = require("./buscar-usuario-por-cpf.controller");
 
 describe('Buscar Usuario Por CPF Controller', function() {

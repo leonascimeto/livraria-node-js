@@ -1,6 +1,6 @@
 const { ZodError } = require("zod");
-const httpResponse = require("../../helpers/http.response");
-const { Either, AppError } = require("../../shared/errors");
+const httpResponse = require("../http-response");
+const { Either, AppError } = require("../../../shared/errors");
 const buscarLivroController = require("./buscar-livro.controller");
 
 describe('Buscar Livro Controller', function() {
