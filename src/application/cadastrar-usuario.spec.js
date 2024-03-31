@@ -10,7 +10,7 @@ describe('Cadastra Usuário', function() {
    };
    test('Deve cadastrar um usuário', async () => {
       const usuarioDTO = {
-        name: 'Carlos Silva',
+        nome: 'Carlos Silva',
         cpf: '123.456.789-00',
         telefone: '(11) 99999-9999',
         email: 'email@email.com',
@@ -35,7 +35,7 @@ describe('Cadastra Usuário', function() {
 
    test('Deve retornar erro se o cpf já estiver cadastrado', async () => {
       const usuarioDTO = {
-        name: 'Carlos Silva',
+        nome: 'Carlos Silva',
         cpf: '123.456.789-00',
         telefone: '(11) 99999-9999',
         email: 'email@email.com',
@@ -51,7 +51,7 @@ describe('Cadastra Usuário', function() {
 
    test('Deve retornar erro se o email já estiver cadastrado', async () => {
     const usuarioDTO = {
-      name: 'Carlos Silva',
+      nome: 'Carlos Silva',
       cpf: '123.456.789-00',
       telefone: '(11) 99999-9999',
       email: 'email@email.com',
