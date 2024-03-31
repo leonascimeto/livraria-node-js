@@ -1,7 +1,7 @@
 const { ZodError } = require("zod");
-const httpResponse = require("../http-response");
-const AppError = require("../../../shared/errors/AppError");
-const Either = require("../../../shared/errors/Either");
+const httpResponse = require("../../http-response");
+const AppError = require("../../../../shared/errors/AppError");
+const Either = require("../../../../shared/errors/Either");
 const cadastrarUsuarioController = require("./cadastrar-usuario.controller");
 
 describe('Cadastrar Usuario Controller', function() {

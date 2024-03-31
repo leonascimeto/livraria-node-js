@@ -1,5 +1,5 @@
 const express = require('express');
-const routes = require('./routes');
+const routes = require('./api/routes');
 
 module.exports = function httpServer() {
   const app = express();
