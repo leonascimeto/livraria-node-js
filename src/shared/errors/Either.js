@@ -15,4 +15,11 @@ module.exports = class Either {
   static right(right) {
     return new Either(null, right);
   }
+
+  fold(fnLeft, fnRight) {
+    if (this.left) {
+      return fnLeft(this.left);
+    }
+    return fnRight(this.right);
+  }
 }
