@@ -26,6 +26,22 @@ describe('Livro Routes', function() {
     expect(body).toBe(null);
   });
 
+  test('POST /livros - deve retornar 422 se o body não for enviado', async function() {
+    const {statusCode, body} = await request(app)
+      .post('/livros')
+      .send({});
+
+    expect(statusCode).toBe(422);
+    expect(body.message).toEqual('Erro na validação');
+    expect(body.errors.fieldErrors).toEqual({
+      titulo: ['Título é obrigatório'],
+      quantidade: ['Quantidade é obrigatório'],
+      autor: ['Autor é obrigatório'],
+      genero: ['Gênero é obrigatório'],
+      isbn: ['ISBN é obrigatório'],
+    });
+  })
+
   test('GET /livros?valor=isbn_valido - deve retornar 200 com um livro', async function() {
     await typeOrmLivrosRepository.save(input);
 
@@ -54,5 +70,16 @@ describe('Livro Routes', function() {
     expect(statusCode).toBe(200);
     expect(body).toHaveLength(0);
   });
+
+  test('GET /livros?valor= - deve retornar 422 e mensagem de erro', async function() {
+    const { statusCode, body } = await request(app)
+      .get(`/livros`).query({});
+
+    expect(statusCode).toBe(422);
+    expect(body.message).toEqual('Erro na validação');
+    expect(body.errors.fieldErrors).toEqual({
+      valor: ['Valor é obrigatório'],
+    });
+  })
 
 });
