@@ -20,7 +20,7 @@ describe('Emprestar Livro Controller', function() {
 
     const sut = await emprestarLivroController({ emprestarLivroUseCase, httpRequest });
 
-    expect(sut).toEqual(httpResponse(200, null));
+    expect(sut).toEqual(httpResponse(201, null));
     expect(emprestarLivroUseCase).toHaveBeenCalledWith({
       ...emprestarLivroPayload,
       data_saida: new Date(emprestarLivroPayload.data_saida),

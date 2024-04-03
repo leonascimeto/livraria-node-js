@@ -16,7 +16,6 @@ usuariosRoutes.get('/cpf/:cpf', async (req, res) => {
   const httpRequest = {
     params: req.params
   }
-  console.log(httpRequest);
   const { statusCode, data } = await buscarUsuarioPorCpfComposer(httpRequest);
   return res.status(statusCode).json(data);
 });

@@ -21,6 +21,6 @@ module.exports = async function emprestarLivroController({ emprestarLivroUseCase
   });
   return output.fold(
     (error) => httpResponse(400, error.message),
-    () => httpResponse(200, null)
+    () => httpResponse(201, null)
   );
 }
