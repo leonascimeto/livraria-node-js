@@ -12,7 +12,7 @@ const livroRepository = function () {
     return await typeOrmLivrosRepository.count({ where: { isbn } }) === 0 ? false : true;
   }
 
-  const buscarPorTituloOuIsbn = async function (valor) {
+  const buscarLivro = async function (valor) {
     return await typeOrmLivrosRepository.find({
       where: [
         { titulo: Like(`%${valor}%`) },
@@ -21,7 +21,7 @@ const livroRepository = function () {
     });
   } 
 
-  return { cadastrar, existePorIsbn, buscarPorTituloOuIsbn };
+  return { cadastrar, existePorIsbn, buscarLivro };
 }
 
 module.exports = { livroRepository, typeOrmLivrosRepository };
