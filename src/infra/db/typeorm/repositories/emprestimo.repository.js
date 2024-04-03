@@ -67,6 +67,7 @@ const emprestimoRepository = function() {
         usuario: {
           cpf: true,
           nome: true,
+          email: true,
         },
       },
      });

@@ -5,12 +5,12 @@ describe('Emprestar Livro UseCase', function() {
   const emprestimoRepository = {
     existeLivroPendenteUsuario: jest.fn(),
     quantidadeLivrosEmprestadoPorUsuario: jest.fn(),
-    emprestarLivro: jest.fn(),
+    emprestar: jest.fn(),
     buscarEmprestimoPorId: jest.fn(),
   };
 
   const emailService = {
-    enviar: jest.fn(),
+    enviarEmail: jest.fn(),
   }
 
   const emprestarLivroPayload = {
@@ -25,7 +25,7 @@ describe('Emprestar Livro UseCase', function() {
   });
 
   test('Deve emprestar um livro', async () => {
-    emprestimoRepository.emprestarLivro.mockResolvedValue('id_valido');
+    emprestimoRepository.emprestar.mockResolvedValue('id_valido');
     emprestimoRepository.buscarEmprestimoPorId.mockResolvedValue({
       usuario: {
         nome: 'usuario',
@@ -39,16 +39,16 @@ describe('Emprestar Livro UseCase', function() {
     const output = await sut(emprestarLivroPayload);
 
     expect(output.right).toBeNull();
-    expect(emprestimoRepository.emprestarLivro).toHaveBeenCalledWith(emprestarLivroPayload);
-    expect(emprestimoRepository.emprestarLivro).toHaveBeenCalledTimes(1);
-    expect(emailService.enviar).toHaveBeenCalledWith({
+    expect(emprestimoRepository.emprestar).toHaveBeenCalledWith(emprestarLivroPayload);
+    expect(emprestimoRepository.emprestar).toHaveBeenCalledTimes(1);
+    expect(emailService.enviarEmail).toHaveBeenCalledWith({
       data_saida: emprestarLivroPayload.data_saida,
       data_retorno: emprestarLivroPayload.data_retorno,
       nome_usuario: 'usuario',
       email: 'email',
       titulo_livro: 'titulo',
     });
-    expect(emailService.enviar).toHaveBeenCalledTimes(1);   
+    expect(emailService.enviarEmail).toHaveBeenCalledTimes(1);   
   });
 
   test('deve retornar error se a data de saída for maior que a data de retorno', async () => {
