@@ -15,6 +15,14 @@ describe('Emprestimo Routes', function() {
     isbn: 'isbn_valido',
   }
 
+  const livroDTO2 = {
+    titulo: 'livro_valido2',
+    quantidade: 2,
+    autor: 'autor valido2',
+    genero: 'genero valido2',
+    isbn: 'isbn_valido2',
+  }
+
   const usuarioDTO = {
     nome: 'Carlos Silva',
     cpf: '123.456.789-00',
@@ -105,6 +113,33 @@ describe('Emprestimo Routes', function() {
     expect(body.errors.fieldErrors).toEqual({
       data_devolucao: ['Data de devolução é obrigatória'],
     });
+  });
+
+  test('GET /emprestimos - deve retornar 200 com um array de emprestimos pendentes', async function() {
+    const livro = await typeOrmLivrosRepository.save(livroDTO);
+    const livro2 = await typeOrmLivrosRepository.save(livroDTO2);
+    const usuario = await typeOrmUsuariosRepository.save(usuarioDTO);
+    const payload = [
+      {
+        livro_id: livro.id,
+        usuario_id: usuario.id,
+        data_saida: '2024-02-16',
+        data_retorno: '2024-02-23',
+      }, 
+      {
+        livro_id: livro2.id,
+        usuario_id: usuario.id,
+        data_saida: '2024-02-16',
+        data_retorno: '2024-02-23',
+        data_devolucao: '2024-02-23',
+      } 
+    ]
+    await typeOrmEmprestimosRepository.save(payload);
+
+    const {statusCode, body} = await request(app).get('/emprestimos');
+
+    expect(statusCode).toBe(200);
+    expect(body).toHaveLength(1);
   });
 
 });
