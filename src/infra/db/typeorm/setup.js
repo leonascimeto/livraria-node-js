@@ -22,6 +22,17 @@ if(process.env.NODE_ENV === 'test') {
     port: 5432,
     entities: [resolve(__dirname, 'entities', '*.entity-typeorm.js')],
   });
+} else {
+  typeormServer = new typeorm.DataSource({
+    type: 'postgres',
+    host: 'localhost',
+    database: 'biblioteca',
+    synchronize: true,
+    username: 'admin',
+    password: 'admin',
+    port: 5432,
+    entities: [resolve(__dirname, 'entities', '*.entity-typeorm.js')],
+  });
 }
 
 
