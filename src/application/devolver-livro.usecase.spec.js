@@ -4,10 +4,10 @@ const devolverLivroUsecase = require("./devolver-livro.usecase");
 describe('Devolver Livro UseCase', function() {
   const emprestimoRepository = {
     buscarEmprestimoPorId: jest.fn(),
-    devolverLivro: jest.fn(),
+    devolver: jest.fn(),
   };
   test('Deve devolver um livro sem multa', async () => {
-    emprestimoRepository.devolverLivro.mockResolvedValue({
+    emprestimoRepository.devolver.mockResolvedValue({
       data_retorno: new Date('2024-02-23'),
     });
     const payload = {
@@ -22,12 +22,12 @@ describe('Devolver Livro UseCase', function() {
       emprestimo_id: 'id_valido',
       multa: 0,
     })
-    expect(emprestimoRepository.devolverLivro).toHaveBeenCalledWith(payload);
-    expect(emprestimoRepository.devolverLivro).toHaveBeenCalledTimes(1);
+    expect(emprestimoRepository.devolver).toHaveBeenCalledWith(payload);
+    expect(emprestimoRepository.devolver).toHaveBeenCalledTimes(1);
   });
 
   test('deve devolver um livro com multa', async () => {
-    emprestimoRepository.devolverLivro.mockResolvedValue({
+    emprestimoRepository.devolver.mockResolvedValue({
       data_retorno: new Date('2024-02-23'),
     });
     const payload = {
