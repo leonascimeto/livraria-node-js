@@ -1,12 +1,13 @@
 const { resolve } = require('path');
+const { POSTGRES_DATABASE, POSTGRES_HOST, POSTGRES_PASS, POSTGRES_USER, POSTGRES_PORT } = require('../../../shared/constants');
 
 module.exports = {
   type: 'postgres',
-  host: 'localhost',
-  database: 'biblioteca',
+  host: POSTGRES_HOST,
+  database: POSTGRES_DATABASE,
   synchronize: false,
-  username: 'admin',
-  password: 'admin',
-  port: 5432,
+  username: POSTGRES_USER,
+  password: POSTGRES_PASS,
+  port: POSTGRES_PORT,
   entities: [resolve(__dirname, 'entities', '*.entity-typeorm.js')],
 }

@@ -1,0 +1,27 @@
+require('dotenv/config');
+
+const PORT = process.env.PORT || 3000;
+const NODEMAILER_HOST = process.env.NODEMAILER_HOST;
+const NODEMAILER_PORT = process.env.NODEMAILER_PORT;
+const NODEMAILER_USER = process.env.NODEMAILER_USER;
+const NODEMAILER_PASS = process.env.NODEMAILER_PASS;
+
+const POSTGRES_HOST = process.env.POSTGRES_HOST;
+const POSTGRES_DATABASE = process.env.POSTGRES_DATABASE;
+const POSTGRES_USER = process.env.POSTGRES_USER;
+const POSTGRES_PASS = process.env.POSTGRES_PASS;
+const POSTGRES_PORT = process.env.POSTGRES_PORT;
+
+
+module.exports = {
+  PORT,
+  NODEMAILER_HOST,
+  NODEMAILER_PORT,
+  NODEMAILER_USER,
+  NODEMAILER_PASS,
+  POSTGRES_HOST,
+  POSTGRES_DATABASE,
+  POSTGRES_USER,
+  POSTGRES_PASS,
+  POSTGRES_PORT
+};

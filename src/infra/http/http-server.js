@@ -1,4 +1,5 @@
 require('express-async-errors');
+
 const express = require('express');
 const routes = require('./api/routes');
 const { ZodError } = require('zod');

@@ -1,4 +1,5 @@
 const nodemailer = require('nodemailer');
+const {NODEMAILER_HOST, NODEMAILER_PORT, NODEMAILER_PASS, NODEMAILER_USER} = require('../../../shared/constants');
 
 module.exports = function nodemailerEmailService(){
   const enviarEmail = async function({
@@ -11,11 +12,11 @@ module.exports = function nodemailerEmailService(){
   })
   {
     var transport = nodemailer.createTransport({
-      host: "sandbox.smtp.mailtrap.io",
-      port: 2525,
+      host: NODEMAILER_HOST,
+      port: NODEMAILER_PORT,
       auth: {
-        user: "283e0bcfdc17d7",
-        pass: "0646f9cb888d62"
+        user: NODEMAILER_USER,
+        pass: NODEMAILER_PASS
       }
     });
 
