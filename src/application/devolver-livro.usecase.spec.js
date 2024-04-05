@@ -22,7 +22,10 @@ describe('Devolver Livro UseCase', function() {
       emprestimo_id: 'id_valido',
       multa: 0,
     })
-    expect(emprestimoRepository.devolver).toHaveBeenCalledWith(payload);
+    expect(emprestimoRepository.devolver).toHaveBeenCalledWith({
+      id: payload.emprestimo_id,
+      data_devolucao: payload.data_devolucao,
+    });
     expect(emprestimoRepository.devolver).toHaveBeenCalledTimes(1);
   });
 
